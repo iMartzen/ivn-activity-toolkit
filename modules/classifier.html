@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Activiteit Classifier — IVN Toolkit</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+  <div class="wrap" id="wrap">
+    <div class="panel main-panel">
+      <div class="module-header">
+        <a class="back-link" href="../index.html">← Overzicht</a>
+        <span class="breadcrumb-label">/ Activiteit Classifier</span>
+      </div>
+
+      <div class="header">
+        <div class="title">
+          <h1>Activiteit Classifier</h1>
+          <div class="subtitle">Klik door de beslisboom en ontdek het type, het prijsadvies en een kant-en-klare activiteitskaart.</div>
+        </div>
+        <div class="pill" id="statusPill">Start</div>
+      </div>
+
+      <div class="body">
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+
+        <div class="node-card" id="nodeCard">
+          <div class="node-header">
+            <h2 class="node-title" id="nodeTitle"></h2>
+            <div class="result-signals" id="resultSignals"></div>
+          </div>
+          <p class="node-text" id="nodeText"></p>
+          <div class="choices" id="choices"></div>
+        </div>
+
+        <div class="controls">
+          <button class="smallbtn" id="backBtn">← Terug</button>
+          <button class="smallbtn" id="restartBtn">↺ Opnieuw</button>
+          <button class="smallbtn result-only" id="copyBtn" disabled>⧉ Kopieer uitkomst</button>
+          <button class="smallbtn primary result-only" id="exportMdBtn" disabled>↓ Exporteer Markdown</button>
+          <button class="smallbtn primary result-only" id="saveCardBtn" disabled>✓ Opslaan als activiteitskaart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel summary-panel" id="summaryPanel">
+      <div class="side">
+        <h2>Advies &amp; 1-pager</h2>
+        <div class="kv">
+          <div class="row">
+            <div class="k">Toegang &amp; prijs (richtlijn)</div>
+            <p class="v" id="priceAdvice">—</p>
+          </div>
+          <div class="row">
+            <div class="k">Activiteitskaart — quick fields</div>
+            <div class="mono" id="onePager"></div>
+          </div>
+        </div>
+
+        <div class="hint">
+          Tip: kopieer de 1-pager naar een mail aan het bestuur en vraag om een
+          kort besluit + vastlegging in de notulen.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script src="./classifier.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+  "_comment": "IVN Werkgroep Toolkit — localStorage key schema",
+  "_version": "1.0",
+  "keys": {
+    "ivn_activity_<timestamp>": {
+      "description": "Activiteitskaart opgeslagen vanuit de classifier",
+      "fields": ["type", "signals", "priceAdvice", "onePagerPreset", "path", "savedAt"]
+    },
+    "ivn_yearplan_<timestamp>": {
+      "description": "Jaarplan gegenereerd via de Jaarplan Wizard",
+      "fields": ["werkgroepNaam", "locatie", "jaar", "coordinator1", "coordinator2", "doelen", "doelToelichting", "kennisproducten", "agenda", "begroting", "opmerkingen", "createdAt"]
+    },
+    "ivn_costpricing_<timestamp>": {
+      "description": "Kostprijsberekening",
+      "fields": ["activiteitNaam", "zaal", "materialen", "spreker", "overig", "uren", "uurtarief", "onvoorzienPct", "ledenmargeA", "margeC", "kostprijs", "scenarios", "createdAt"]
+    },
+    "ivn_knowledge_<alphanum-id>": {
+      "description": "Kennisdrager (CRUD, stabiele ID voor updates)",
+      "fields": ["id", "naam", "expertiseTags", "vorm", "beschikbaarheid", "voorwaarden", "contact", "createdAt", "updatedAt"]
+    },
+    "ivn_health_<timestamp>": {
+      "description": "Werkgroep gezondheidscore snapshot",
+      "fields": ["naam", "modus", "scores", "totalScore", "maxScore", "actiepunten", "createdAt"]
+    },
+    "ivn_partner_<timestamp>": {
+      "description": "Partner intake formulier",
+      "fields": ["partnerNaam", "organisatieType", "website", "contactpersoon", "contactmail", "missie", "ivnMatch", "reputatieRisico", "samenwerking", "financieel", "afspraken", "createdAt"]
+    },
+    "ivn_evaluation_<timestamp>": {
+      "description": "Activiteit evaluatie",
+      "fields": ["activiteitNaam", "datum", "type", "aanwezigen", "begroot", "werkelijk", "watWerkte", "watNiet", "leads", "beoordeling", "createdAt"]
+    },
+    "ivn_settings": {
+      "description": "App-instellingen (enkelvoudig record)",
+      "fields": ["werkgroepNaam", "defaultCoordinator"]
+    }
+  }
+}
