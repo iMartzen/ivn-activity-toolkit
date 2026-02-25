@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jaarplan Wizard — IVN Toolkit</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+  <div class="wrap wide">
+    <div class="panel">
+      <div class="module-header">
+        <a class="back-link" href="../index.html">← Overzicht</a>
+        <span class="breadcrumb-label">/ Jaarplan Wizard</span>
+      </div>
+
+      <div class="header">
+        <div class="title">
+          <h1>Jaarplan Wizard</h1>
+          <div class="subtitle">Genereer een jaarplan voor jouw werkgroep in 6 stappen.</div>
+        </div>
+        <div class="pill" id="stepPill">Stap 1 / 6</div>
+      </div>
+
+      <div class="wizard-steps" id="stepsBar"></div>
+
+      <div class="body" id="wizardBody"></div>
+
+      <div class="controls wizard-controls">
+        <button class="smallbtn" id="prevBtn" disabled>← Vorige</button>
+        <button class="smallbtn primary" id="nextBtn">Volgende →</button>
+        <button class="smallbtn ml-auto" id="restartBtn">↺ Opnieuw beginnen</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script src="./yearplan.js"></script>
+</body>
+</html>

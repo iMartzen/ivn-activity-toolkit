@@ -290,11 +290,11 @@ const tree = {
 // --- State ---------------------------------------------------------------
 const state = {
   nodeId: "start",
-  history: [],   // stack of {nodeId, choiceLabel}
+  history: [],
   signals: new Set()
 };
 
-// --- DOM ---------------------------------------------------------------
+// --- DOM -----------------------------------------------------------------
 const wrapEl          = document.getElementById("wrap");
 const nodeTitleEl     = document.getElementById("nodeTitle");
 const nodeTextEl      = document.getElementById("nodeText");
@@ -305,27 +305,20 @@ const priceAdviceEl   = document.getElementById("priceAdvice");
 const onePagerEl      = document.getElementById("onePager");
 const statusPillEl    = document.getElementById("statusPill");
 
-const backBtn    = document.getElementById("backBtn");
-const restartBtn = document.getElementById("restartBtn");
-const copyBtn    = document.getElementById("copyBtn");
+const backBtn      = document.getElementById("backBtn");
+const restartBtn   = document.getElementById("restartBtn");
+const copyBtn      = document.getElementById("copyBtn");
+const exportMdBtn  = document.getElementById("exportMdBtn");
+const saveCardBtn  = document.getElementById("saveCardBtn");
 
 // --- Helpers -------------------------------------------------------------
-function tagHtml(text, cls){
-  return `<span class="tag ${cls}">${escapeHtml(text)}</span>`;
+function tagHtml(text, cls) {
+  return `<span class="tag ${cls}">${IVN.ui.escapeHtml(text)}</span>`;
 }
 
-function escapeHtml(s){
-  return String(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-function buildOnePager(preset){
+function buildOnePager(preset) {
   const lines = [];
-  for(const [k,v] of Object.entries(preset)){
+  for (const [k, v] of Object.entries(preset)) {
     lines.push(`${k}: ${v}`);
   }
   lines.push("");
@@ -343,15 +336,34 @@ function buildOnePager(preset){
   return lines.join("\n");
 }
 
-function currentPathText(){
-  if(state.history.length === 0) return "Start";
+function currentPathText() {
+  if (state.history.length === 0) return "Start";
   return state.history.map(h => h.choiceLabel).join(" → ");
 }
 
-function setPill(){
+function buildResultMarkdown(node) {
+  const r = node.result;
+  const path = currentPathText();
+  let md = IVN.md.h1('Activiteitskaart: ' + r.type);
+  md += '\n';
+  md += IVN.md.meta([
+    ['Type', r.type],
+    ['Beslispad', path],
+    ['Datum gegenereerd', new Date().toLocaleDateString('nl-NL')]
+  ]);
+  md += IVN.md.h2('Signalen');
+  md += r.signals.map(s => IVN.md.li(s.text)).join('\n') + '\n';
+  md += IVN.md.h2('Prijsadvies');
+  md += IVN.md.p(r.priceAdvice);
+  md += IVN.md.h2('Activiteitskaart (1-pager)');
+  md += '\n```\n' + buildOnePager(r.onePagerPreset) + '\n```\n';
+  return md;
+}
+
+function setPill() {
   const node = tree[state.nodeId];
-  if(node.result){
-    statusPillEl.textContent = "Klaar \u2713";
+  if (node.result) {
+    statusPillEl.textContent = "Klaar ✓";
     statusPillEl.style.borderColor = "rgba(90,200,90,0.60)";
     statusPillEl.style.background   = "rgba(90,200,90,0.12)";
   } else {
@@ -362,27 +374,27 @@ function setPill(){
 }
 
 // --- Render --------------------------------------------------------------
-function render(){
+function render() {
   const node = tree[state.nodeId];
   const isResult = !!node.result;
 
-  // Toggle two-column layout and summary panel
   wrapEl.classList.toggle("is-result", isResult);
 
-  // Copy button only active on result
-  copyBtn.disabled = !isResult;
+  copyBtn.disabled     = !isResult;
+  exportMdBtn.disabled = !isResult;
+  saveCardBtn.disabled = !isResult;
 
   setPill();
 
-  // breadcrumbs
+  // Breadcrumbs
   breadcrumbsEl.innerHTML = "";
-  if(state.history.length === 0){
+  if (state.history.length === 0) {
     breadcrumbsEl.innerHTML = `<span class="crumb">Start</span>`;
   } else {
     state.history.forEach((h, idx) => {
       const c = document.createElement("span");
       c.className = "crumb";
-      c.textContent = `${idx+1}. ${h.choiceLabel}`;
+      c.textContent = `${idx + 1}. ${h.choiceLabel}`;
       breadcrumbsEl.appendChild(c);
     });
   }
@@ -390,41 +402,35 @@ function render(){
   choicesEl.innerHTML = "";
   resultSignalsEl.innerHTML = "";
 
-  if(isResult){
-    // result view
+  if (isResult) {
     nodeTitleEl.textContent = node.result.type;
     nodeTextEl.textContent = "Je activiteit is ingeschaald. Gebruik het advies rechts als leidraad voor prijs en communicatie.";
 
-    // signals in main card
     resultSignalsEl.innerHTML = node.result.signals.map(s => tagHtml(s.text, s.tag)).join("");
 
-    // fill summary panel
     priceAdviceEl.textContent = node.result.priceAdvice;
     onePagerEl.textContent = buildOnePager(node.result.onePagerPreset);
 
-    // tip below the signals
     const tip = document.createElement("p");
     tip.className = "result-tip";
     tip.textContent = "Kopieer de 1-pager (rechts) en mail hem naar het bestuur voor een kort besluit.";
     choicesEl.appendChild(tip);
   } else {
-    // question view
     nodeTitleEl.textContent = node.title;
     nodeTextEl.textContent = node.text;
 
-    // choices
     node.choices.forEach(ch => {
       const b = document.createElement("button");
       b.className = "btn";
       b.innerHTML = `
         <div>
-          <div class="label-text">${escapeHtml(ch.label)}</div>
-          <div class="meta">${escapeHtml(ch.meta || "")}</div>
+          <div class="label-text">${IVN.ui.escapeHtml(ch.label)}</div>
+          <div class="meta">${IVN.ui.escapeHtml(ch.meta || "")}</div>
         </div>
-        <div class="arrow">\u203a</div>
+        <div class="arrow">›</div>
       `;
       b.addEventListener("click", () => {
-        if(Array.isArray(ch.signalAdd)){
+        if (Array.isArray(ch.signalAdd)) {
           ch.signalAdd.forEach(s => state.signals.add(s));
         }
         state.history.push({ nodeId: state.nodeId, choiceLabel: ch.label });
@@ -434,9 +440,8 @@ function render(){
       choicesEl.appendChild(b);
     });
 
-    // show path so far (only once a few steps in)
     const sigs = Array.from(state.signals);
-    if(sigs.length > 0){
+    if (sigs.length > 0) {
       const row = document.createElement("p");
       row.className = "node-text";
       row.style.marginTop = "14px";
@@ -446,17 +451,14 @@ function render(){
     }
   }
 
-  // back button state
   backBtn.disabled = state.history.length === 0;
 }
 
 // --- Controls ------------------------------------------------------------
 backBtn.addEventListener("click", () => {
-  if(state.history.length === 0) return;
+  if (state.history.length === 0) return;
   const last = state.history.pop();
   state.nodeId = last.nodeId;
-  // We keep signals simple; if you want perfect signal rollback, use a signal stack.
-  // For practical use, it's fine; restart is always available.
   render();
 });
 
@@ -471,22 +473,42 @@ copyBtn.addEventListener("click", async () => {
   const node = tree[state.nodeId];
   const path = currentPathText();
   let text = `Pad: ${path}\n\n`;
-
-  if(node.result){
+  if (node.result) {
     text += `Uitkomst: ${node.result.type}\n\n`;
     text += `Waarom:\n- ${node.result.signals.map(s => s.text).join("\n- ")}\n\n`;
     text += `Advies (prijs/kaders):\n${node.result.priceAdvice}\n\n`;
     text += `Activiteitskaart (1-pager):\n${buildOnePager(node.result.onePagerPreset)}\n`;
   }
-
-  try{
-    await navigator.clipboard.writeText(text);
-    statusPillEl.textContent = "Gekopieerd \u2713";
-    setTimeout(() => setPill(), 1200);
-  } catch(e){
-    alert("Kopieer handmatig uit het tekstvak in het advies-paneel.");
+  const ok = await IVN.copyText(text);
+  if (ok) {
+    const prev = statusPillEl.textContent;
+    statusPillEl.textContent = "Gekopieerd ✓";
+    setTimeout(() => setPill(), 1400);
   }
 });
 
-// initial render
+exportMdBtn.addEventListener("click", () => {
+  const node = tree[state.nodeId];
+  if (!node.result) return;
+  const md = buildResultMarkdown(node);
+  const safeName = node.result.type.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  IVN.exportMarkdown('activiteitskaart-' + safeName + '.md', md);
+  IVN.ui.showToast('Markdown geëxporteerd!');
+});
+
+saveCardBtn.addEventListener("click", () => {
+  const node = tree[state.nodeId];
+  if (!node.result) return;
+  IVN.saveActivityCard({
+    type: node.result.type,
+    signals: node.result.signals,
+    priceAdvice: node.result.priceAdvice,
+    onePagerPreset: node.result.onePagerPreset,
+    path: currentPathText()
+  });
+  saveCardBtn.textContent = "✓ Opgeslagen!";
+  setTimeout(() => { saveCardBtn.textContent = "✓ Opslaan als activiteitskaart"; }, 2000);
+});
+
+// Initial render
 render();

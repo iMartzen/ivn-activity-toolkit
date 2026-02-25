@@ -3,62 +3,146 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>IVN Activiteiten Toolkit</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>IVN S&B — Werkgroep Toolkit</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
 </head>
 <body>
-  <div class="wrap" id="wrap">
-    <div class="panel main-panel">
-      <div class="header">
-        <div class="title">
-          <h1>IVN Activiteiten Toolkit</h1>
-          <div class="subtitle">Wat voor activiteit organiseer je? Klik door de beslisboom en ontdek het type, het prijsadvies en een kant-en-klare activiteitskaart.</div>
-        </div>
-        <div class="pill" id="statusPill">Start</div>
-      </div>
+  <div class="hub-wrap">
 
-      <div class="body">
-        <div class="breadcrumbs" id="breadcrumbs"></div>
-
-        <div class="node-card" id="nodeCard">
-          <div class="node-header">
-            <h2 class="node-title" id="nodeTitle"></h2>
-            <div class="result-signals" id="resultSignals"></div>
-          </div>
-          <p class="node-text" id="nodeText"></p>
-          <div class="choices" id="choices"></div>
-        </div>
-
-        <div class="controls">
-          <button class="smallbtn" id="backBtn">← Terug</button>
-          <button class="smallbtn" id="restartBtn">↺ Opnieuw</button>
-          <button class="smallbtn result-only" id="copyBtn" disabled>⧉ Kopieer uitkomst</button>
-        </div>
+    <div class="hub-header">
+      <h1>IVN S&B — Werkgroep Toolkit</h1>
+      <p>Ondersteuning voor werkgroepen en bestuur van IVN S&B bij inschaling, jaarplannen, kostprijzen, communicatie, kennisbeheer en evaluaties.</p>
+      <div class="ivn-doelen">
+        <span class="tag good">Natuurbeleving</span>
+        <span class="tag good">Educatie</span>
+        <span class="tag info">Duurzaamheid</span>
+        <span class="tag info">Gezondheid</span>
       </div>
     </div>
 
-    <div class="panel summary-panel" id="summaryPanel">
-      <div class="side">
-        <h2>Advies &amp; 1-pager</h2>
-        <div class="kv">
-          <div class="row">
-            <div class="k">Toegang &amp; prijs (richtlijn)</div>
-            <p class="v" id="priceAdvice">—</p>
-          </div>
-          <div class="row">
-            <div class="k">Activiteitskaart — quick fields</div>
-            <div class="mono" id="onePager"></div>
-          </div>
-        </div>
+    <div class="hub-main">
+      <div class="hub-section-title">Modules</div>
+      <nav class="nav-grid" aria-label="Toolkit modules">
 
-        <div class="hint">
-          Tip: kopieer de 1-pager naar een mail aan het bestuur en vraag om een
-          kort besluit + vastlegging in de notulen.
-        </div>
+        <a class="nav-card" href="./modules/classifier.html">
+          <div class="nav-card-icon">🌿</div>
+          <div class="nav-card-content">
+            <div class="nav-card-title">Activiteit Classifier</div>
+            <div class="nav-card-desc">Inschalen van activiteitstype en prijsadvies via beslisboom</div>
+          </div>
+          <div class="nav-card-arrow">›</div>
+        </a>
+
+        <a class="nav-card" href="./modules/yearplan.html">
+          <div class="nav-card-icon">🗓</div>
+          <div class="nav-card-content">
+            <div class="nav-card-title">Jaarplan Wizard</div>
+            <div class="nav-card-desc">Genereer een jaarplan voor de werkgroep in 6 stappen</div>
+          </div>
+          <div class="nav-card-arrow">›</div>
+        </a>
+
+        <a class="nav-card" href="./modules/cost-pricing.html">
+          <div class="nav-card-icon">💰</div>
+          <div class="nav-card-content">
+            <div class="nav-card-title">Kostprijs &amp; Prijsbeleid</div>
+            <div class="nav-card-desc">Bereken kostprijs en scenario's per deelnemer</div>
+          </div>
+          <div class="nav-card-arrow">›</div>
+        </a>
+
+        <a class="nav-card" href="./modules/comms.html">
+          <div class="nav-card-icon">📢</div>
+          <div class="nav-card-content">
+            <div class="nav-card-title">Communicatie Templates</div>
+            <div class="nav-card-desc">Genereer social, website en e-mailteksten voor activiteiten</div>
+          </div>
+          <div class="nav-card-arrow">›</div>
+        </a>
+
+        <a class="nav-card" href="./modules/knowledge-base.html">
+          <div class="nav-card-icon">📚</div>
+          <div class="nav-card-content">
+            <div class="nav-card-title">Kennisdragers Catalogus</div>
+            <div class="nav-card-desc">Beheer vrijwilligers en experts met expertise en beschikbaarheid</div>
+          </div>
+          <div class="nav-card-arrow">›</div>
+        </a>
+
+        <a class="nav-card" href="./modules/health.html">
+          <div class="nav-card-icon">💚</div>
+          <div class="nav-card-content">
+            <div class="nav-card-title">Gezondheidscheck</div>
+            <div class="nav-card-desc">Score en actiepunten voor werkgroep én bestuur apart beoordeeld</div>
+          </div>
+          <div class="nav-card-arrow">›</div>
+        </a>
+
+        <a class="nav-card" href="./modules/partner-intake.html">
+          <div class="nav-card-icon">🤝</div>
+          <div class="nav-card-content">
+            <div class="nav-card-title">Partner Intake</div>
+            <div class="nav-card-desc">Intake verslag en MoU-bullets voor samenwerkingen</div>
+          </div>
+          <div class="nav-card-arrow">›</div>
+        </a>
+
+        <a class="nav-card" href="./modules/evaluation.html">
+          <div class="nav-card-icon">📋</div>
+          <div class="nav-card-content">
+            <div class="nav-card-title">Evaluatie</div>
+            <div class="nav-card-desc">Evalueer activiteiten en registreer opkomst en leerpunten</div>
+          </div>
+          <div class="nav-card-arrow">›</div>
+        </a>
+
+        <a class="nav-card" href="./modules/dashboard.html">
+          <div class="nav-card-icon">📊</div>
+          <div class="nav-card-content">
+            <div class="nav-card-title">Dashboard</div>
+            <div class="nav-card-desc">Overzicht van activiteiten, deelnemers en jaarplannen</div>
+          </div>
+          <div class="nav-card-arrow">›</div>
+        </a>
+
+      </nav>
+
+      <div class="backup-section">
+        <p>Data wordt lokaal opgeslagen in je browser. Maak regelmatig een backup.</p>
+        <button class="smallbtn primary" id="exportBtn">⬇ Exporteer backup (JSON)</button>
+        <label class="smallbtn">
+          ⬆ Herstel backup
+          <input type="file" id="importFile" accept=".json" class="file-input-hidden">
+        </label>
+        <button class="smallbtn danger" id="resetBtn">✕ Reset alle data</button>
       </div>
+
     </div>
+
+    <div class="hub-footer">
+      IVN S&B &mdash; Werkgroep Toolkit &mdash; data opgeslagen in lokale browser
+    </div>
+
   </div>
 
-  <script src="script.js"></script>
+  <script src="./assets/app.js"></script>
+  <script>
+    document.getElementById('exportBtn').addEventListener('click', function() {
+      IVN.exportJSON();
+    });
+
+    document.getElementById('importFile').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      IVN.importJSON(file, function(count) {
+        setTimeout(() => location.reload(), 800);
+      });
+      e.target.value = '';
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', function() {
+      IVN.resetAll();
+    });
+  </script>
 </body>
 </html>
