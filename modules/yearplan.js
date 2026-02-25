@@ -450,6 +450,8 @@ function renderCurrentStep() {
    Dynamic list event delegation
 --------------------------------------------------------- */
 function bindDynamicListeners() {
+  body.removeEventListener('click', handleDynamicClick);
+  body.removeEventListener('input', handleDynamicInput);
   body.addEventListener('click', handleDynamicClick);
   body.addEventListener('input', handleDynamicInput);
 }
@@ -651,7 +653,7 @@ restartBtn.addEventListener('click', () => {
   if (!confirm('Weet je zeker dat je opnieuw wilt beginnen? Niet-opgeslagen data gaat verloren.')) return;
   wizard.step = 0;
   wizard.data = {
-    werkgroepNaam: '', locatie: 'S&B', jaar: new Date().getFullYear() + 1,
+    werkgroepNaam: '', locatie: '', jaar: new Date().getFullYear() + 1,
     coordinator1: { naam: '', email: '' }, coordinator2: { naam: '', email: '' },
     doelen: [], doelToelichting: '', kennisproducten: [], agenda: [],
     begroting: { inkomsten: [], uitgaven: [] }, opmerkingen: ''

@@ -3,6 +3,7 @@
    ========================================================= */
 
 const RISICO_NIVEAUS = ['laag', 'gemiddeld', 'hoog'];
+let piAbort = new AbortController();
 
 const piState = {
   partnerNaam: '',
@@ -277,6 +278,9 @@ function buildMoU() {
 }
 
 function renderList() {
+  piAbort.abort();
+  piAbort = new AbortController();
+  const sig = piAbort.signal;
   const entries = IVN.store.list('ivn_partner_');
 
   document.getElementById('appBody').innerHTML = `
@@ -318,7 +322,7 @@ function renderList() {
     `}
   `;
 
-  document.getElementById('toFormBtn3').addEventListener('click', () => { piState.view = 'form'; render(); });
+  document.getElementById('toFormBtn3').addEventListener('click', () => { piState.view = 'form'; render(); }, { signal: sig });
   document.getElementById('appBody').addEventListener('click', e => {
     const btn = e.target.closest('[data-del]');
     if (!btn) return;
@@ -326,7 +330,7 @@ function renderList() {
       IVN.store.remove(btn.dataset.del);
       render();
     }
-  });
+  }, { signal: sig });
 }
 
 function exportPartner() {

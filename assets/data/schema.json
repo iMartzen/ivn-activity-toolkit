@@ -8,11 +8,11 @@
     },
     "ivn_yearplan_<timestamp>": {
       "description": "Jaarplan gegenereerd via de Jaarplan Wizard",
-      "fields": ["werkgroepNaam", "locatie", "jaar", "coordinator1", "coordinator2", "doelen", "kennisproducten", "agenda", "begroting", "createdAt"]
+      "fields": ["werkgroepNaam", "locatie", "jaar", "coordinator1", "coordinator2", "doelen", "doelToelichting", "kennisproducten", "agenda", "begroting", "opmerkingen", "createdAt"]
     },
     "ivn_costpricing_<timestamp>": {
       "description": "Kostprijsberekening",
-      "fields": ["activiteitNaam", "directeKosten", "uren", "uurtarief", "onvoorzienPct", "scenarios", "createdAt"]
+      "fields": ["activiteitNaam", "zaal", "materialen", "spreker", "overig", "uren", "uurtarief", "onvoorzienPct", "ledenmargeA", "margeC", "kostprijs", "scenarios", "createdAt"]
     },
     "ivn_knowledge_<alphanum-id>": {
       "description": "Kennisdrager (CRUD, stabiele ID voor updates)",
@@ -20,7 +20,7 @@
     },
     "ivn_health_<timestamp>": {
       "description": "Werkgroep gezondheidscore snapshot",
-      "fields": ["werkgroepNaam", "scores", "totalScore", "maxScore", "actiepunten", "createdAt"]
+      "fields": ["naam", "modus", "scores", "totalScore", "maxScore", "actiepunten", "createdAt"]
     },
     "ivn_partner_<timestamp>": {
       "description": "Partner intake formulier",

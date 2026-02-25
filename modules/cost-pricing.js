@@ -108,16 +108,16 @@ function render() {
     <div style="background:rgba(0,0,0,0.18);border-radius:12px;padding:16px;margin-bottom:18px">
       <div style="display:grid;gap:6px;font-size:14px">
         <div style="display:flex;justify-content:space-between">
-          <span>Directe kosten</span><span>${IVN.ui.formatEuro(res.directeKosten)}</span>
+          <span>Directe kosten</span><span data-cp="directeKosten">${IVN.ui.formatEuro(res.directeKosten)}</span>
         </div>
         <div style="display:flex;justify-content:space-between">
-          <span>Vrijwilligersuren (${esc(cpState.uren)} × ${IVN.ui.formatEuro(cpState.uurtarief)})</span><span>${IVN.ui.formatEuro(res.urenKosten)}</span>
+          <span>Vrijwilligersuren (${esc(cpState.uren)} × ${IVN.ui.formatEuro(cpState.uurtarief)})</span><span data-cp="urenKosten">${IVN.ui.formatEuro(res.urenKosten)}</span>
         </div>
         <div style="display:flex;justify-content:space-between;color:var(--muted)">
-          <span>Onvoorzien (${esc(cpState.onvoorzienPct)}%)</span><span>${IVN.ui.formatEuro(res.onvoorzienBedrag)}</span>
+          <span>Onvoorzien (${esc(cpState.onvoorzienPct)}%)</span><span data-cp="onvoorzienBedrag">${IVN.ui.formatEuro(res.onvoorzienBedrag)}</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:17px;font-weight:700;border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
-          <span>Totale kostprijs</span><span style="color:var(--accent)">${IVN.ui.formatEuro(res.kostprijs)}</span>
+          <span>Totale kostprijs</span><span data-cp="kostprijs" style="color:var(--accent)">${IVN.ui.formatEuro(res.kostprijs)}</span>
         </div>
       </div>
     </div>
@@ -198,16 +198,11 @@ function updateLiveResults() {
     `).join('');
 
     // Update totals block
-    const kostprijsBlock = document.querySelector('[style*="background:rgba(0,0,0,0.18)"]');
-    if (kostprijsBlock) {
-      const divs = kostprijsBlock.querySelectorAll('[style*="justify-content:space-between"]');
-      if (divs.length >= 4) {
-        divs[0].lastElementChild.textContent = IVN.ui.formatEuro(res.directeKosten);
-        divs[1].lastElementChild.textContent = IVN.ui.formatEuro(res.urenKosten);
-        divs[2].lastElementChild.textContent = IVN.ui.formatEuro(res.onvoorzienBedrag);
-        divs[3].lastElementChild.textContent = IVN.ui.formatEuro(res.kostprijs);
-      }
-    }
+    const cpFields = { directeKosten: res.directeKosten, urenKosten: res.urenKosten, onvoorzienBedrag: res.onvoorzienBedrag, kostprijs: res.kostprijs };
+    Object.entries(cpFields).forEach(([key, val]) => {
+      const el = document.querySelector(`[data-cp="${key}"]`);
+      if (el) el.textContent = IVN.ui.formatEuro(val);
+    });
 
     // Update comm text
     const commEl = document.getElementById('commText');

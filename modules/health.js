@@ -137,6 +137,7 @@ function maxScoreFor(cats) {
 // scores: { [itemId]: 0|1|2 }
 const scores = {};
 let naam = '';
+let healthAbort = new AbortController();
 
 // Default: alle items op geel (1)
 CATEGORIES.forEach(cat => {
@@ -176,6 +177,9 @@ function scoreColor(score, max) {
    Render
 --------------------------------------------------------- */
 function render() {
+  healthAbort.abort();
+  healthAbort = new AbortController();
+  const sig = healthAbort.signal;
   const cats = visibleCategories();
   const maxScore = maxScoreFor(cats);
   const total = totalScore();
@@ -235,13 +239,13 @@ function render() {
     </div>
   `;
 
-  document.getElementById('hNaam').addEventListener('input', e => { naam = e.target.value; });
+  document.getElementById('hNaam').addEventListener('input', e => { naam = e.target.value; }, { signal: sig });
 
   // Modus tabs
   document.getElementById('appBody').addEventListener('click', e => {
     const btn = e.target.closest('[data-modus]');
     if (btn) { modus = btn.dataset.modus; render(); }
-  });
+  }, { signal: sig });
 
   // Radio changes — update without full re-render
   document.getElementById('appBody').addEventListener('change', e => {
@@ -250,10 +254,10 @@ function render() {
       scores[id] = parseInt(e.target.value);
       updateScoreDisplay(cats, maxScore);
     }
-  });
+  }, { signal: sig });
 
-  document.getElementById('exportHealthBtn').addEventListener('click', exportHealth);
-  document.getElementById('saveHealthBtn').addEventListener('click', saveHealth);
+  document.getElementById('exportHealthBtn').addEventListener('click', exportHealth, { signal: sig });
+  document.getElementById('saveHealthBtn').addEventListener('click', saveHealth, { signal: sig });
 }
 
 function renderModusBadges(cats) {
@@ -413,11 +417,6 @@ function updateScoreDisplay(cats, maxScore) {
 
   // Update totaaloverzicht badges if visible
   if (modus === 'alles') {
-    const badgesWrap = document.querySelector('.score-summary')?.previousElementSibling?.previousElementSibling;
-    // Re-render badges inline
-    const newBadges = document.createElement('div');
-    newBadges.innerHTML = renderModusBadges(cats);
-    const existing = document.querySelector('[style*="grid-template-columns:1fr 1fr"]')?.parentNode;
     const gridEl = document.querySelector('[style*="grid-template-columns:1fr 1fr"]');
     if (gridEl) gridEl.outerHTML = renderModusBadges(cats);
   }

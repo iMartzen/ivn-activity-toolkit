@@ -8,6 +8,8 @@ const ACTIVITEIT_TYPEN = [
   'Activiteitenreeks', 'Werkgroepactiviteit', 'Werkgroeptraject (reeks)', 'Anders'
 ];
 
+let evalAbort = new AbortController();
+
 const evalState = {
   view: 'list',         // 'list' | 'form'
   editKey: null,
@@ -40,6 +42,9 @@ function render() {
    Lijst weergave
 --------------------------------------------------------- */
 function renderList() {
+  evalAbort.abort();
+  evalAbort = new AbortController();
+  const sig = evalAbort.signal;
   const entries = IVN.store.list('ivn_evaluation_').sort((a, b) => {
     const da = a.data && a.data.datum ? a.data.datum : '';
     const db = b.data && b.data.datum ? b.data.datum : '';
@@ -74,9 +79,9 @@ function renderList() {
       watWerkte: '', watNiet: '', leads: '', beoordeling: 3
     };
     render();
-  });
+  }, { signal: sig });
 
-  document.getElementById('exportAllBtn')?.addEventListener('click', exportAll);
+  document.getElementById('exportAllBtn')?.addEventListener('click', exportAll, { signal: sig });
 
   // Card interactions
   document.getElementById('appBody').addEventListener('click', e => {
@@ -103,7 +108,7 @@ function renderList() {
         render();
       }
     }
-  });
+  }, { signal: sig });
 }
 
 function renderEvalCard(entry) {
